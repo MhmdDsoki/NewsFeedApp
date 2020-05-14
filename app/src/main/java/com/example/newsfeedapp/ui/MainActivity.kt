@@ -1,4 +1,4 @@
-package com.example.newsfeedapp
+package com.example.newsfeedapp.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,21 +12,28 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
+import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.showToast
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.koin.android.viewmodel.ext.android.getViewModel
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+     lateinit var viewModel: NewsViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        viewModel = getViewModel ()
 
         navController = Navigation.findNavController(
             this,

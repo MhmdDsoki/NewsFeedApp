@@ -7,11 +7,11 @@
     <fragment
         android:id="@+id/nav_explore"
         android:name="com.example.newsfeedapp.ui.fragment.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="News"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_wish_list"
         android:name="com.example.newsfeedapp.ui.fragment.wish_list.WishListFragment"
-        android:label="fragment_wish_list"
+        android:label="Favourite"
         tools:layout="@layout/fragment_wish_list" />
 </navigation>
