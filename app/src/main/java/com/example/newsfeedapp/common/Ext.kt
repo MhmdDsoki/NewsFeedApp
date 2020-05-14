@@ -1,6 +1,7 @@
 package com.example.newsfeedapp.common
 
 import android.app.Activity
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 
@@ -17,6 +18,14 @@ fun View.show(){
 
 fun View.gone(){
     this.visibility = View.GONE
+}
+
+fun MenuItem.gone(){
+    this.setVisible(false)
+}
+
+fun MenuItem.show(){
+    this.setVisible(true)
 }
 
 

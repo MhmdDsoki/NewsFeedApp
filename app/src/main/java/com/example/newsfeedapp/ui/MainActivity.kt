@@ -6,10 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewParent
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,19 +18,20 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.showToast
-import com.example.newsfeedapp.ui.fragment.home.HomeFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.android.viewmodel.ext.android.getViewModel
+import com.example.newsfeedapp.common.gone
+import com.example.newsfeedapp.common.show
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var navController: NavController
+     private lateinit var appBarConfiguration: AppBarConfiguration
+     private lateinit var navController: NavController
      lateinit var viewModel: NewsViewModel
-
+     private  lateinit var itemSearch:MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         viewModel = getViewModel ()
-
-
-
-        navController = Navigation.findNavController(
-            this,
-            R.id.nav_host_fragment
-        )
-
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -62,6 +57,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+       itemSearch = menu.findItem(R.id.action_search)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            if (destination.id == R.id.webViewFragment )
+                itemSearch.gone()
+            else
+                itemSearch.show()
+        }
         return true
     }
 
@@ -78,28 +81,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
         showToast(item.title.toString())
-
         // You need this line to handle the navigation
         val handled = NavigationUI.onNavDestinationSelected(item, navController)
         if (handled) {
             val parent: ViewParent = nav_view.getParent()
-            if (parent is DrawerLayout) {
+            if (parent is DrawerLayout)
                 parent.closeDrawer(nav_view)
-            }
         }
-
         return handled
-
     }
-
-
-
-
 }
