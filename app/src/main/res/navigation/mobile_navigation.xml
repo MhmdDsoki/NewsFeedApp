@@ -8,10 +8,27 @@
         android:id="@+id/nav_explore"
         android:name="com.example.newsfeedapp.ui.fragment.home.HomeFragment"
         android:label="News"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_explore_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_wish_list"
         android:name="com.example.newsfeedapp.ui.fragment.wish_list.WishListFragment"
         android:label="Favourite"
-        tools:layout="@layout/fragment_wish_list" />
+        tools:layout="@layout/fragment_wish_list" >
+        <action
+            android:id="@+id/action_nav_wish_list_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.newsfeedapp.ui.fragment.details.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="article"
+            app:argType="com.example.newsfeedapp.data.model.Article" />
+    </fragment>
 </navigation>
