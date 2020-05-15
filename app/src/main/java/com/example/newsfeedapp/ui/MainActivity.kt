@@ -1,12 +1,9 @@
 package com.example.newsfeedapp.ui
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
+
 import android.view.MenuItem
 import android.view.ViewParent
-import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -52,32 +49,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         NavigationUI.setupWithNavController(nav_view, navController)
         nav_view.setNavigationItemSelectedListener(this)
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-       itemSearch = menu.findItem(R.id.action_search)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-
-            if (destination.id == R.id.webViewFragment )
-                itemSearch.gone()
-            else
-                itemSearch.show()
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_search -> {
-                Toast.makeText(this, "Item Search selected  ", Toast.LENGTH_SHORT).show()
-
-                Log.d("TAG","No Query Params to search  ")
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

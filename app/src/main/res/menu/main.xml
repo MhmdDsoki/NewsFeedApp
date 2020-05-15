@@ -5,7 +5,7 @@
         android:id="@+id/action_search"
         android:orderInCategory="100"
         android:icon="@drawable/ic_search_white_24dp"
-
+        app:actionViewClass="android.widget.SearchView"
         android:title="@string/action_search"
         app:showAsAction="always" />
 </menu>
