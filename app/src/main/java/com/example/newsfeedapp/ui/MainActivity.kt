@@ -1,13 +1,11 @@
 package com.example.newsfeedapp.ui
 
 import android.os.Bundle
-
 import android.view.MenuItem
 import android.view.ViewParent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,23 +17,19 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import com.example.newsfeedapp.common.gone
-import com.example.newsfeedapp.common.show
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-     private lateinit var appBarConfiguration: AppBarConfiguration
-     private lateinit var navController: NavController
-     lateinit var viewModel: NewsViewModel
-     private  lateinit var itemSearch:MenuItem
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navController: NavController
+    lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        viewModel = getViewModel ()
+        viewModel = getViewModel()
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

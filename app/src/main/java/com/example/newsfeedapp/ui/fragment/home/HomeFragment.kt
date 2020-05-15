@@ -27,6 +27,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
     private val newsAdapter by lazy { NewsAdapter(this) }
     private lateinit var responseList: MutableList<Article>
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -39,10 +40,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
         viewModel.articleNews().observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
-                    ProgressBar.gone()
-                    newsAdapter.differ.submitList(it.data)
-                    swipeReferesh.isRefreshing = false
-                    it.data?.let { articles -> responseList.addAll(articles) }        // add the call from api to list in memory to search
+                    if (it.data != null) {
+                        ProgressBar.gone()
+                        newsAdapter.differ.submitList(it.data)
+                        swipeReferesh.isRefreshing = false
+                        it.data?.let { articles -> responseList.addAll(articles) } // add the call from api to list in memory to search
+                    }
                 }
                 is Resource.Error -> {
                     ProgressBar.gone()

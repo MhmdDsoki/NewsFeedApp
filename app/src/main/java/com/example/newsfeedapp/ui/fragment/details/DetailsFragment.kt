@@ -2,10 +2,8 @@ package com.example.newsfeedapp.ui.fragment.details
 
 
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,8 +14,6 @@ import com.example.newsfeedapp.common.Util
 import com.example.newsfeedapp.common.showMsg
 import com.example.newsfeedapp.common.showToast
 import com.example.newsfeedapp.ui.MainActivity
-import com.github.ivbaranov.mfb.MaterialFavoriteButton.OnFavoriteChangeListener
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_details.*
 import org.koin.core.KoinComponent
 import org.koin.core.get
@@ -44,8 +40,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
         if (viewModel.isFavourite(args.article.url) == 1) {
             favBtn.isFavorite = true
             setOnFavListner()
-        }
-        else
+        } else
             setOnFavListner()
 
 
@@ -66,9 +61,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
             val action = args.article.url?.let { url ->
                 DetailsFragmentDirections.actionDetailsFragmentToWebViewFragment(url)
             }
-            action?.let { action -> findNavController().navigate(action) }
+            action.let { action -> findNavController().navigate(action) }
         }
     }
+
     private fun setOnFavListner() {
         favBtn.setOnFavoriteChangeListener { buttonView, favorite ->
             if (favorite) {
