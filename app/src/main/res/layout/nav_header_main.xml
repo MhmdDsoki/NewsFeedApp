@@ -39,12 +39,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/arrow_img"
+        app:layout_constraintEnd_toStartOf="@id/arrowImg"
         app:layout_constraintStart_toEndOf="@id/side_menu_image"
         app:layout_constraintTop_toBottomOf="@id/tvWelcome" />
 
     <ImageView
-        android:id="@+id/arrow_img"
+        android:id="@+id/arrowImg"
         android:layout_width="18dp"
         android:layout_height="0dp"
         android:src="@drawable/arrow"

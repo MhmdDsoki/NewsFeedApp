@@ -3,6 +3,7 @@ package com.example.newsfeedapp.ui
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewParent
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.showToast
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.nav_view
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 

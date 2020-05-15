@@ -44,7 +44,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
                         ProgressBar.gone()
                         newsAdapter.differ.submitList(it.data)
                         swipeReferesh.isRefreshing = false
-                        it.data?.let { articles -> responseList.addAll(articles) } // add the call from api to list in memory to search
+                        it.data.let { articles -> responseList.addAll(articles) } // add the call from api to list in memory to search
                     }
                 }
                 is Resource.Error -> {
@@ -65,7 +65,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
 
             }
         }
-        articlesNewsRecycler.apply {
+        newsRecycler.apply {
             adapter = newsAdapter
         }
     }

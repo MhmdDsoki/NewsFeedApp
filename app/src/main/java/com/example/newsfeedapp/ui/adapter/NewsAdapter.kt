@@ -22,6 +22,7 @@ class NewsAdapter(private val interaction: Interaction? = null) :
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == newItem.url
         }
+
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
         }
@@ -39,6 +40,7 @@ class NewsAdapter(private val interaction: Interaction? = null) :
             interaction
         )
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NewsViewHolder -> {
@@ -51,7 +53,8 @@ class NewsAdapter(private val interaction: Interaction? = null) :
         return differ.currentList.size
     }
 
-    class NewsViewHolder (itemView: View, private val interaction: Interaction?) : RecyclerView.ViewHolder(itemView), KoinComponent {
+    class NewsViewHolder(itemView: View, private val interaction: Interaction?) :
+        RecyclerView.ViewHolder(itemView), KoinComponent {
 
         private val glide: RequestManager = get()
 
@@ -60,12 +63,13 @@ class NewsAdapter(private val interaction: Interaction? = null) :
                 interaction?.onItemSelected(adapterPosition, item)
             }
             glide.load(item.urlToImage)
-                .into(ArticleImage)
-            TitleTxt.text = item.title
-            PublisherNameTxt.text = "By ${item.author} "
-            PublisherDateTxt.text = "${Util.dateFormat(item.publishedAt)}"
+                .into(articleImage)
+            titleTxt.text = item.title
+            authorNameTxt.text = "By ${item.author} "
+            dateTxt.text = "${Util.dateFormat(item.publishedAt)}"
         }
     }
+
     interface Interaction {
         fun onItemSelected(position: Int, item: Article)
     }

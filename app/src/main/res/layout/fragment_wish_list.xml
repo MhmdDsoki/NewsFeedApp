@@ -7,7 +7,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/articlesNewsRecycler"
+            android:id="@+id/favNewsRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"

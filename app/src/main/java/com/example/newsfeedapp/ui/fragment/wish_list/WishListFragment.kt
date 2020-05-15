@@ -8,19 +8,17 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.showDialog
-import com.example.newsfeedapp.common.showToast
 import com.example.newsfeedapp.data.model.Article
 import com.example.newsfeedapp.ui.MainActivity
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_wish_list.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -42,9 +40,15 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
 
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
 
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 return true
             }
 
@@ -55,7 +59,7 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
 
                 Snackbar.make(view, "Successfully deleted article", Snackbar.LENGTH_LONG).apply {
                     setAction("Undo") {
-                       viewModel.saveArticle(article)
+                        viewModel.saveArticle(article)
                     }
                     show()
                 }
@@ -63,12 +67,12 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
         }
 
         ItemTouchHelper(itemTouchHelperCallback).apply {
-            attachToRecyclerView(articlesNewsRecycler)
+            attachToRecyclerView(favNewsRecycler)
         }
     }
 
     private fun observeToFavLiveData() {
-        viewModel.getSavedArticles().observe(viewLifecycleOwner, Observer {articles->
+        viewModel.getSavedArticles().observe(viewLifecycleOwner, Observer { articles ->
             if (articles != null) {
                 newsAdapter.differ.submitList(articles)
                 favList.addAll(articles)
@@ -77,13 +81,13 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
     }
 
     private fun setupRecyclerView() {
-        articlesNewsRecycler.apply {
+        favNewsRecycler.apply {
             adapter = newsAdapter
         }
     }
 
     override fun onItemSelected(position: Int, item: Article) {
-        val action = WishListFragmentDirections.actionNavWishListToDetailsFragment(item )
+        val action = WishListFragmentDirections.actionNavWishListToDetailsFragment(item)
         findNavController().navigate(action)
     }
 
@@ -92,12 +96,13 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
             R.id.action_deleteAll -> {
 
                 if (favList.isNotEmpty())
-                  showDialog(getString(R.string.deleteAll) , " Yes , Delete "
-                  , DialogInterface.OnClickListener {dialog, which ->
-                          viewModel.deleteAllArticles()
-                      },"No", DialogInterface.OnClickListener { dialog, which ->
-                          dialog.dismiss()
-                      },true)
+                    showDialog(getString(R.string.deleteAll), " Yes , Delete "
+                        , DialogInterface.OnClickListener { dialog, which ->
+                            viewModel.deleteAllArticles()
+                        }, "No", DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        }, true
+                    )
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -131,6 +136,4 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
         newsAdapter.differ.submitList(responses)
         return true
     }
-
-
 }

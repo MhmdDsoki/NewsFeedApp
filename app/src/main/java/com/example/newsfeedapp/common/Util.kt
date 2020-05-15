@@ -1,5 +1,6 @@
 package com.example.newsfeedapp.common
 
+import android.annotation.SuppressLint
 import org.ocpsoft.prettytime.PrettyTime
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -7,14 +8,11 @@ import java.util.Date
 import java.util.Locale
 
 
-
-
-
 class Util {
 
     companion object {
 
-       // ex : convert time to  2 hour ago
+        // ex : convert time to  2 hour ago
         fun dateToTimeFormat(oldstringDate: String?): String? {
             val p = PrettyTime(Locale(getCountry()))
             var isTime: String? = null
@@ -31,6 +29,7 @@ class Util {
             return isTime
         }
 
+        @SuppressLint("SimpleDateFormat")
         fun dateFormat(oldstringDate: String?): String? {
             val newDate: String?
             val dateFormat =
@@ -45,18 +44,17 @@ class Util {
             return newDate
         }
 
-       private fun getCountry(): String? {
+        private fun getCountry(): String? {
             val locale: Locale = Locale.getDefault()
-            val country: String = java.lang.String.valueOf(locale.getCountry())
-            return country.toLowerCase()
+            val country: String = java.lang.String.valueOf(locale.country)
+            return country.toLowerCase(Locale.ROOT)
         }
 
         fun getLanguage(): String? {
             val locale: Locale = Locale.getDefault()
-            val country: String = java.lang.String.valueOf(locale.getLanguage())
+            val country: String = java.lang.String.valueOf(locale.language)
             return country.toLowerCase()
         }
-
 
     }
 }

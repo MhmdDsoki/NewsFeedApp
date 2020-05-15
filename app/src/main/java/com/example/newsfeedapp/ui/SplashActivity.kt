@@ -10,9 +10,8 @@ import com.example.newsfeedapp.common.show
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import android.view.animation.AnimationUtils;
+import android.view.animation.AnimationUtils
 import com.example.newsfeedapp.R
-
 
 class SplashActivity : AppCompatActivity() {
 
@@ -26,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
                 news_text_view.show()
                 val animation: Animation =
                     AnimationUtils.loadAnimation(this@SplashActivity, R.anim.topnews_text_view)
-                news_text_view.animation=animation
+                news_text_view.animation = animation
             }
             whenStarted {
                 delay(1000)
@@ -34,8 +33,9 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun navigateToHome() {
-        startActivity(Intent(this , MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 }

@@ -9,12 +9,11 @@ import com.example.newsfeedapp.data.model.Article
 interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert( article: Article): Long
-
+    suspend fun insert(article: Article): Long
 
 
     @Query("SELECT * FROM  Article")
-     fun getAllArticles(): LiveData<List<Article>>
+    fun getAllArticles(): LiveData<List<Article>>
 
     @Delete
     suspend fun deleteArticle(article: Article)
@@ -24,7 +23,5 @@ interface NewsDao {
 
     @Query("SELECT EXISTS (SELECT 1 FROM Article WHERE url=:articleUrl)")
     fun isFavorite(articleUrl: String): Int
-
-
 
 }

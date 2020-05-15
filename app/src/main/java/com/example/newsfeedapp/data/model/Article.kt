@@ -25,7 +25,4 @@ data class Article(
     @SerializedName("urlToImage")
     val urlToImage: String?
 
-): Serializable{
-
-
-}
+) : Serializable

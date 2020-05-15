@@ -8,34 +8,33 @@
         android:id="@+id/nav_explore"
         android:name="com.example.newsfeedapp.ui.fragment.home.HomeFragment"
         android:label="News"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_explore_to_detailsFragment"
             app:destination="@id/detailsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/nav_wish_list"
         android:name="com.example.newsfeedapp.ui.fragment.wish_list.WishListFragment"
         android:label="Favourite"
-        tools:layout="@layout/fragment_wish_list" >
+        tools:layout="@layout/fragment_wish_list">
         <action
             android:id="@+id/action_nav_wish_list_to_detailsFragment"
             app:destination="@id/detailsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.newsfeedapp.ui.fragment.details.DetailsFragment"
         android:label="Details"
-        tools:layout="@layout/fragment_details" >
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="article"
             app:argType="com.example.newsfeedapp.data.model.Article" />
@@ -45,14 +44,13 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.example.newsfeedapp.ui.fragment.details.WebViewFragment"
         android:label="Web View"
-        tools:layout="@layout/fragment_web_view" >
+        tools:layout="@layout/fragment_web_view">
         <argument
             android:name="webViewUrl"
             app:argType="string" />

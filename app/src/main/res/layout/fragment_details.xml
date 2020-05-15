@@ -1,130 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-    android:padding="20dp"
-    android:background="@color/grey"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:padding="20dp">
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview"
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:cardElevation="@dimen/cardview_default_elevation"
         android:layout_marginBottom="24dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="1dp"
+        app:layout_constraintBottom_toTopOf="@id/openWebSite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/openWebSite">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/ArticleImage"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:adjustViewBounds="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/TitleTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ArticleImage" />
+                <ImageView
+                    android:id="@+id/articleImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/PublisherNameTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/TitleTxt" />
+                <TextView
+                    android:id="@+id/titleTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:paddingHorizontal="24dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/articleImage" />
 
-            <TextView
-                android:id="@+id/PublisherDateTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:textAlignment="viewEnd"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ArticleImage"
-                app:layout_constraintBottom_toTopOf="@id/TitleTxt"
-                android:textColor="@color/colorPrimary"
-                />
+                <TextView
+                    android:id="@+id/authorNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleTxt" />
 
-            <TextView
-                android:id="@+id/descriptionTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PublisherNameTxt"
-                />
+                <TextView
+                    android:id="@+id/dateTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:paddingEnd="24dp"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@id/titleTxt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/articleImage" />
 
-            <TextView
-                android:id="@+id/ArticleTimeAgo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:textAlignment="viewStart"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ArticleImage"
-                app:layout_constraintBottom_toTopOf="@id/TitleTxt"
-                android:textColor="@color/colorPrimary"
-                />
+                <TextView
+                    android:id="@+id/descriptionTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:paddingHorizontal="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/authorNameTxt" />
+
+                <TextView
+                    android:id="@+id/articleTimeAgo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:paddingStart="24dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@id/titleTxt"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/articleImage" />
 
 
-            <ImageView
-                android:id="@+id/shareBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_share_black_24dp"
-                app:layout_constraintTop_toBottomOf="@id/descriptionTxt"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <ImageView
+                    android:id="@+id/shareBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_share_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/descriptionTxt" />
 
-            <com.github.ivbaranov.mfb.MaterialFavoriteButton
-                android:id="@+id/favBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_favorite_border_black_24dp"
-                app:mfb_type="heart"
-                app:layout_constraintTop_toBottomOf="@id/descriptionTxt"
+                <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                    android:id="@+id/favBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    app:mfb_color="black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/shareBtn"
+                    app:layout_constraintTop_toBottomOf="@id/descriptionTxt"
+                    app:mfb_type="heart" />
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/shareBtn"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
 
     <Button
@@ -135,8 +132,7 @@
         android:text="@string/open_website"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

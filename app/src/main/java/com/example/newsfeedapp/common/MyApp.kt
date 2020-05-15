@@ -9,15 +9,10 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         //setting up koin
         startKoin {
             androidContext(this@MyApp)
-
-            modules(listOf(appModule,networkModule,viewModelModule, serviceModule, repo))
-
-
+            modules(listOf(appModule, networkModule, viewModelModule, serviceModule, repo))
         }
     }
-
 }

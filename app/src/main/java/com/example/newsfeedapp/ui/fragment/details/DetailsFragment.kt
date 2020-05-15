@@ -29,12 +29,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
 
         glide.load(args.article.urlToImage)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .into(ArticleImage)
+            .into(articleImage)
 
-        TitleTxt.text = args.article.title
-        PublisherNameTxt.text = args.article.author
-        PublisherDateTxt.text = Util.dateFormat(args.article.publishedAt)
-        ArticleTimeAgo.text = Util.dateToTimeFormat(args.article.publishedAt)
+        titleTxt.text = args.article.title
+        authorNameTxt.text = args.article.author
+        dateTxt.text = Util.dateFormat(args.article.publishedAt)
+        articleTimeAgo.text = Util.dateToTimeFormat(args.article.publishedAt)
         descriptionTxt.text = args.article.description
 
         if (viewModel.isFavourite(args.article.url) == 1) {
@@ -58,7 +58,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
             }
         }
         openWebSite.setOnClickListener {
-            val action = args.article.url?.let { url ->
+            val action = args.article.url.let { url ->
                 DetailsFragmentDirections.actionDetailsFragmentToWebViewFragment(url)
             }
             action.let { action -> findNavController().navigate(action) }

@@ -25,7 +25,8 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
             // coroutineScope is needed, else in case of any network error, it will crash
             coroutineScope {
                 val articleSourceTheNextWeb = async { repository.getArticlesNews("the-next-web") }
-                val articleSourceAssociatedPress = async { repository.getArticlesNews("associated-press") }
+                val articleSourceAssociatedPress =
+                    async { repository.getArticlesNews("associated-press") }
                 val firstSource = articleSourceTheNextWeb.await()
                 val secondSource = articleSourceAssociatedPress.await()
                 val allArticlesFromApi = mutableListOf<Article>()
@@ -50,11 +51,9 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
         repository.deleteArticle(article)
     }
 
-
     fun deleteAllArticles() = viewModelScope.launch {
         repository.deleteAllArticle()
     }
 
     fun isFavourite(url: String) = repository.isFavorite(url)
-
 }

@@ -25,5 +25,6 @@ class NewsRepository(private val service: ApiService, private val dao: NewsDao) 
     override suspend fun deleteArticle(article: Article) = dao.deleteArticle(article)
 
     override suspend fun deleteAllArticle() = dao.deleteAllArticle()
-    override fun isFavorite(articleUrl: String): Int =dao.isFavorite(articleUrl)
+
+    override fun isFavorite(articleUrl: String): Int = dao.isFavorite(articleUrl)
 }

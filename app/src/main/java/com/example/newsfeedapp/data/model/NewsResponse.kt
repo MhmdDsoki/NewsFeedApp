@@ -13,6 +13,4 @@ data class NewsResponse(
     val source: String?,
     @SerializedName("status")
     val status: String?
-
-
 )
