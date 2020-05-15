@@ -16,7 +16,7 @@ val appModule = module{
 
 
     // Provide NewsDatabase
-    single{ Room.databaseBuilder(get(), NewsDataBase::class.java, "NEWS_DATABASE_NAME").fallbackToDestructiveMigration().build() }
+    single{ Room.databaseBuilder(get(), NewsDataBase::class.java, "NEWS_DATABASE_NAME").fallbackToDestructiveMigration().allowMainThreadQueries().build() }
 
     // Provide NewsDao
     single{ get<NewsDataBase>().getNewsDao() }

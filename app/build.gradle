@@ -119,4 +119,8 @@ dependencies {
 
     //Times Formater
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+
+    // materialfavoritebutton
+    implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
+
 }

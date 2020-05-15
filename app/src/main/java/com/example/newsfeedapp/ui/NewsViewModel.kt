@@ -22,8 +22,25 @@ class NewsViewModel (private val repository: NewsRepository) : ViewModel() {
        }
    }
 
-
     fun articleNews () : LiveData<Resource<Article>> = articleNews
+
+    fun saveArticle(article: Article) = viewModelScope.launch {
+        repository.insert(article)
+    }
+
+    fun getSavedArticles() = repository.getAllArticles()
+
+    fun deleteArticle(article: Article) = viewModelScope.launch {
+        repository.deleteArticle(article)
+    }
+
+
+    fun deleteAllArticles() = viewModelScope.launch {
+        repository.deleteAllArticle()
+    }
+
+     fun isFavourite(url : String )=repository.isFavorite(url)
+
 
 
 }

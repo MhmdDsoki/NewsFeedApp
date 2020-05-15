@@ -20,7 +20,10 @@ interface NewsDao {
     suspend fun deleteArticle(article: Article)
 
     @Query("DELETE FROM Article")
-    fun deleteAllArticle()
+    suspend fun deleteAllArticle()
+
+    @Query("SELECT EXISTS (SELECT 1 FROM Article WHERE url=:articleUrl)")
+    fun isFavorite(articleUrl: String): Int
 
 
 

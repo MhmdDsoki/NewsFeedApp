@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.Util
 import com.example.newsfeedapp.data.model.Article
@@ -18,19 +17,16 @@ import org.koin.core.get
 class NewsAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
+    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
 
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.url == newItem.url
         }
-
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
         }
-
     }
     val differ = AsyncListDiffer(this, DIFF_CALLBACK)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -43,7 +39,6 @@ class NewsAdapter(private val interaction: Interaction? = null) :
             interaction
         )
     }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NewsViewHolder -> {
@@ -56,12 +51,7 @@ class NewsAdapter(private val interaction: Interaction? = null) :
         return differ.currentList.size
     }
 
-
-    class NewsViewHolder
-    constructor(
-        itemView: View,
-        private val interaction: Interaction?
-    ) : RecyclerView.ViewHolder(itemView), KoinComponent {
+    class NewsViewHolder (itemView: View, private val interaction: Interaction?) : RecyclerView.ViewHolder(itemView), KoinComponent {
 
         private val glide: RequestManager = get()
 
@@ -69,21 +59,13 @@ class NewsAdapter(private val interaction: Interaction? = null) :
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
-
             glide.load(item.urlToImage)
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ArticleImage)
-
             TitleTxt.text = item.title
-
             PublisherNameTxt.text = "By ${item.author} "
-
             PublisherDateTxt.text = "${Util.dateFormat(item.publishedAt)}"
-
-
         }
     }
-
     interface Interaction {
         fun onItemSelected(position: Int, item: Article)
     }
