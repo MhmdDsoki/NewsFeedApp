@@ -91,17 +91,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        val responses: MutableList<Article> = ArrayList()
-        for (response in responseList) {
-            /*
-            Useful constant for the root locale. The root locale is the locale whose language, country, and variant are empty ("") strings.
-            This is regarded as the base locale of all locales, and is used as the language/country neutral locale for the locale sensitive operations.
-             */
-            val name: String? = response.title?.toLowerCase(Locale.ROOT)
-            if (newText?.toLowerCase(Locale.ROOT)?.let { name?.contains(it) }!!)
-                responses.add(response)
-        }
-        newsAdapter.differ.submitList(responses)
+
+        newsAdapter.differ.submitList(viewModel.searcQuery(newText,responseList))
         return true
     }
 }

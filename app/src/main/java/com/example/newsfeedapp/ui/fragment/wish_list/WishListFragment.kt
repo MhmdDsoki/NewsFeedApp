@@ -125,17 +125,8 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        val responses: MutableList<Article> = ArrayList()
-        for (response in favList) {
-            /*
-            Useful constant for the root locale. The root locale is the locale whose language, country, and variant are empty ("") strings.
-            This is regarded as the base locale of all locales, and is used as the language/country neutral locale for the locale sensitive operations.
-             */
-            val name: String? = response.title?.toLowerCase(Locale.ROOT)
-            if (newText?.toLowerCase(Locale.ROOT)?.let { name?.contains(it) }!!)
-                responses.add(response)
-        }
-        newsAdapter.differ.submitList(responses)
+
+        newsAdapter.differ.submitList(viewModel.searcQuery(newText,favList))
         return true
     }
 }

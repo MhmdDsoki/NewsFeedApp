@@ -10,13 +10,18 @@ import com.example.newsfeedapp.data.model.Article
 import com.example.newsfeedapp.data.FavRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsViewModel(private val newsRepository: NewsRepository , private val favRepo: FavRepo) : ViewModel() {
 
-    var homeNews: MutableLiveData<Resource<Article>> = MutableLiveData()
+    private var homeNews: MutableLiveData<Resource<Article>> = MutableLiveData()
+    private lateinit var responseList: MutableList<Article>
+
 
     init{
         getHomeNews()
+
     }
 
     fun getHomeNews(){
@@ -46,6 +51,22 @@ class NewsViewModel(private val newsRepository: NewsRepository , private val fav
     }
 
     fun isFavourite(url: String) = favRepo.isFavorite(url)
+
+
+    fun searcQuery (newText: String? , responseList: MutableList<Article> ) : MutableList<Article> {
+        val responses: MutableList<Article> = ArrayList()
+        for (response in responseList ) {
+            /*
+            Useful constant for the root locale. The root locale is the locale whose language, country, and variant are empty ("") strings.
+            This is regarded as the base locale of all locales, and is used as the language/country neutral locale for the locale sensitive operations.
+             */
+            val name: String? = response.title?.toLowerCase(Locale.ROOT)
+            if (newText?.toLowerCase(Locale.ROOT)?.let { name?.contains(it) }!!)
+                responses.add(response)
+        }
+        return  responses
+
+    }
 
 
 }
