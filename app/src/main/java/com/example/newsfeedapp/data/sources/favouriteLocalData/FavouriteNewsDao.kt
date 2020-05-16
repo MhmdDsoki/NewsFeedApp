@@ -1,4 +1,4 @@
-package com.example.newsfeedapp.data.sources.localData
+package com.example.newsfeedapp.data.sources.favouriteLocalData
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -6,11 +6,10 @@ import com.example.newsfeedapp.data.model.Article
 
 
 @Dao
-interface NewsDao {
+interface FavouriteNewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(article: Article): Long
-
 
     @Query("SELECT * FROM  Article")
     fun getAllArticles(): LiveData<List<Article>>

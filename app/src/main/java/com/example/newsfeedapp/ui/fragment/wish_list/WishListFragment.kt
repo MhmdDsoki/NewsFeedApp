@@ -78,6 +78,8 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
                 favList.addAll(articles)
             }
         })
+
+
     }
 
     private fun setupRecyclerView() {

@@ -44,6 +44,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
             setOnFavListner()
 
 
+
+
         shareBtn.setOnClickListener {
             try {
                 val i = Intent(Intent.ACTION_SEND)
