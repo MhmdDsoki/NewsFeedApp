@@ -7,53 +7,45 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsfeedapp.common.Resource
 import com.example.newsfeedapp.data.NewsRepository
 import com.example.newsfeedapp.data.model.Article
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import com.example.newsfeedapp.data.FavRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
+class NewsViewModel(private val newsRepository: NewsRepository , private val favRepo: FavRepo) : ViewModel() {
 
-    private val articleNews = MutableLiveData<Resource<Article>>()
+    var homeNews: MutableLiveData<Resource<Article>> = MutableLiveData()
 
-    init {
-        fetchArticlesNewsFromApi()
+    init{
+        getHomeNews()
     }
 
-    private fun fetchArticlesNewsFromApi() = viewModelScope.launch {
-        articleNews.postValue(Resource.Loading())
-        try {
-            // coroutineScope is needed, else in case of any network error, it will crash
-            coroutineScope {
-                val articleSourceTheNextWeb = async { repository.getArticlesNews("the-next-web") }
-                val articleSourceAssociatedPress =
-                    async { repository.getArticlesNews("associated-press") }
-                val firstSource = articleSourceTheNextWeb.await()
-                val secondSource = articleSourceAssociatedPress.await()
-                val allArticlesFromApi = mutableListOf<Article>()
-                firstSource.articles?.let { allArticlesFromApi.addAll(it) }
-                secondSource.articles?.let { allArticlesFromApi.addAll(it) }
-                articleNews.postValue(Resource.Success(allArticlesFromApi))
-            }
-        } catch (e: Exception) {
-            articleNews.postValue(Resource.Error(msg = e.localizedMessage))
+    fun getHomeNews(){
+        viewModelScope.launch(Dispatchers.IO) {
+            newsRepository.getArticles()
         }
+        homeNews=newsRepository.articlesNews
     }
 
-    fun articleNews(): LiveData<Resource<Article>> = articleNews
+    fun getNews () : LiveData<Resource<Article>> =homeNews
+
+
+
 
     fun saveArticle(article: Article) = viewModelScope.launch {
-        repository.insert(article)
+        favRepo.insert(article)
     }
 
-    fun getSavedArticles() = repository.getAllArticles()
+    fun getSavedArticles() = favRepo.getAllArticles()
 
     fun deleteArticle(article: Article) = viewModelScope.launch {
-        repository.deleteArticle(article)
+        favRepo.deleteArticle(article)
     }
 
     fun deleteAllArticles() = viewModelScope.launch {
-        repository.deleteAllArticle()
+        favRepo.deleteAllArticle()
     }
 
-    fun isFavourite(url: String) = repository.isFavorite(url)
+    fun isFavourite(url: String) = favRepo.isFavorite(url)
+
+
 }

@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.newsfeedapp.R
-import com.example.newsfeedapp.common.Resource
-import com.example.newsfeedapp.common.gone
-import com.example.newsfeedapp.common.show
+import com.example.newsfeedapp.common.*
 import com.example.newsfeedapp.data.model.Article
 import com.example.newsfeedapp.ui.MainActivity
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
@@ -37,7 +35,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
     }
 
     private fun observeToNewsLiveData() {
-        viewModel.articleNews().observe(viewLifecycleOwner, Observer {
+        viewModel.getNews().observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
                     if (it.data != null) {
@@ -45,19 +43,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
                         newsAdapter.differ.submitList(it.data)
                         swipeReferesh.isRefreshing = false
                         it.data.let { articles -> responseList.addAll(articles) } // add the call from api to list in memory to search
+
                     }
                 }
                 is Resource.Error -> {
                     ProgressBar.gone()
                     swipeReferesh.isRefreshing = false
-                }
+                    newsAdapter.differ.submitList(it.data)
 
+                }
                 is Resource.Loading -> ProgressBar.show()
             }
         })
     }
 
     private fun setupRecyclerView() {
+
         swipeReferesh.apply {
             setOnRefreshListener {
                 responseList.clear()
@@ -65,6 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
 
             }
         }
+
         newsRecycler.apply {
             adapter = newsAdapter
         }

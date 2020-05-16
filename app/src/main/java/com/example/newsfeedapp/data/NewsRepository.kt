@@ -1,30 +1,53 @@
 package com.example.newsfeedapp.data
 
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.newsfeedapp.common.Resource
 import com.example.newsfeedapp.data.model.Article
-import com.example.newsfeedapp.data.model.NewsResponse
-import com.example.newsfeedapp.data.sources.localData.NewsDao
+import com.example.newsfeedapp.data.sources.homeCahedData.HomeNewsDao
 import com.example.newsfeedapp.data.sources.remoteApi.ApiService
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 
-class NewsRepository(private val service: ApiService, private val dao: NewsDao) : ApiService,
-    NewsDao {
+class NewsRepository(private val service: ApiService, private val homeDao: HomeNewsDao) {
 
+    val articlesNews: MutableLiveData<Resource<Article>> = MutableLiveData()
 
-    // get all articles from api
-    override suspend fun getArticlesNews(sourceName: String): NewsResponse =
-        service.getArticlesNews(sourceName)
+    suspend fun getArticles() {
+        articlesNews.postValue(Resource.Loading())
+        try {
 
-    override suspend fun insert(article: Article): Long = dao.insert(article)
+            // coroutineScope is needed, else in case of any network error, it will crash
+            coroutineScope {
+                val articleSourceTheNextWeb = async { service.getArticlesNews("the-next-web") }
+                val articleSourceAssociatedPress =
+                    async { service.getArticlesNews("associated-press") }
+                val firstSource = articleSourceTheNextWeb.await()
+                val secondSource = articleSourceAssociatedPress.await()
+                val allArticlesFromApi = mutableListOf<Article>()
+                firstSource.articles?.let { allArticlesFromApi.addAll(it) }
+                secondSource.articles?.let { allArticlesFromApi.addAll(it) }
+                articlesNews.postValue(Resource.Success(allArticlesFromApi))
 
+                // cache to room
+                insertListToRoom(allArticlesFromApi)
 
-    // get favourite articles from cache
-    override fun getAllArticles(): LiveData<List<Article>> = dao.getAllArticles()
+            }
 
-    override suspend fun deleteArticle(article: Article) = dao.deleteArticle(article)
+        } catch (e: Exception) {
+            articlesNews.postValue(
+                Resource.Error(
+                    data = getBreakingNewsFromRoom(),
+                    msg = e.message
+                )
+            )
+        }
+    }
 
-    override suspend fun deleteAllArticle() = dao.deleteAllArticle()
+    private suspend fun insertListToRoom(article: List<Article>): List<Long> =
+        homeDao.insertList(article)
 
-    override fun isFavorite(articleUrl: String): Int = dao.isFavorite(articleUrl)
+    fun getBreakingNewsFromRoom(): List<Article> = homeDao.getAllArticles()
+
 }

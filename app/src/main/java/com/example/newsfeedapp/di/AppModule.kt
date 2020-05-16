@@ -5,7 +5,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.newsfeedapp.R
-import com.example.newsfeedapp.data.sources.localData.NewsDataBase
+import com.example.newsfeedapp.data.sources.favouriteLocalData.FavouriteNewsDataBase
+import com.example.newsfeedapp.data.sources.homeCahedData.HomeNewsDataBase
 import org.koin.android.ext.koin.androidContext
 
 import org.koin.dsl.module
@@ -13,14 +14,19 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    // Provide NewsDatabase
     single {
-        Room.databaseBuilder(get(), NewsDataBase::class.java, "NEWS_DATABASE_NAME")
+        Room.databaseBuilder(get(), FavouriteNewsDataBase::class.java, "FAV_DATABASE_NAME")
             .fallbackToDestructiveMigration().allowMainThreadQueries().build()
     }
 
-    // Provide NewsDao
-    single { get<NewsDataBase>().getNewsDao() }
+    single { get<FavouriteNewsDataBase>().getFavouriteDao() }    //  FavouriteNewsDataBase().getFavouriteDao()
+
+    single {
+        Room.databaseBuilder(get(), HomeNewsDataBase::class.java, "NEWS_DATABASE_NAME")
+            .fallbackToDestructiveMigration().build()
+    }
+
+    single { get<HomeNewsDataBase>().getHomeNewsDao() }
 
     single {
         RequestOptions
