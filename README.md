@@ -1,4 +1,4 @@
-# New App 
+# News App 
 News application using the API from https://newsapi.org/
 API News Is JSON API for live news and blog articles from the media.
 News Feed is a simple  that gives you latest and best news from multiple sources so you no longer need to swap between apps to stay informed.
