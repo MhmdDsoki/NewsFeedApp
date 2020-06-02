@@ -15,5 +15,8 @@ interface HomeNewsDao {
     @Query("SELECT * FROM  Article")
     fun getAllArticles(): List<Article>
 
+    @Query("DELETE FROM Article")
+    suspend fun deleteAllNews()
+
 
 }
