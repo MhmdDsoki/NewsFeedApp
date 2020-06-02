@@ -52,7 +52,7 @@ val networkModule = module {
     }
 }
 
-val serviceModule = module {
+val apiServiceModule = module {
 
     factory {
         get<Retrofit>().create(ApiService::class.java)

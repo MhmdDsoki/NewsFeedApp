@@ -13,7 +13,7 @@ class Util {
     companion object {
 
         // ex : convert time to  2 hour ago
-        fun dateToTimeFormat(oldstringDate: String?): String? {
+        fun dateToTimeFormat(oldStringDate: String?): String? {
             val p = PrettyTime(Locale(getCountry()))
             var isTime: String? = null
             try {
@@ -21,7 +21,7 @@ class Util {
                     "yyyy-MM-dd'T'HH:mm:ss'Z'",
                     Locale.ENGLISH
                 )
-                val date: Date = sdf.parse(oldstringDate)
+                val date: Date = sdf.parse(oldStringDate)
                 isTime = p.format(date)
             } catch (e: ParseException) {
                 e.printStackTrace()
@@ -30,31 +30,26 @@ class Util {
         }
 
         @SuppressLint("SimpleDateFormat")
-        fun dateFormat(oldstringDate: String?): String? {
+        fun dateFormat(oldStringDate: String?): String? {
             val newDate: String?
             val dateFormat =
                 SimpleDateFormat("E, d MMM yyyy", Locale(getCountry()))
             newDate = try {
-                val date: Date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(oldstringDate)
+                val date: Date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(oldStringDate)
                 dateFormat.format(date)
             } catch (e: ParseException) {
                 e.printStackTrace()
-                oldstringDate
+                oldStringDate
             }
             return newDate
         }
 
-        private fun getCountry(): String? {
-            val locale: Locale = Locale.getDefault()
-            val country: String = java.lang.String.valueOf(locale.country)
-            return country.toLowerCase(Locale.ROOT)
-        }
+        private fun getCountry(): String? =
+            java.lang.String.valueOf(Locale.getDefault().country).toLowerCase(Locale.ROOT)
 
-        fun getLanguage(): String? {
-            val locale: Locale = Locale.getDefault()
-            val country: String = java.lang.String.valueOf(locale.language)
-            return country.toLowerCase()
-        }
+
+        fun getLanguage(): String? = java.lang.String.valueOf(Locale.getDefault().language)
+
 
     }
 }

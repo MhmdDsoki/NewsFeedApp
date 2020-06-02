@@ -12,33 +12,38 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 
-val appModule = module {
+val roomModule = module {
+        single {
+            Room.databaseBuilder(get(), FavouriteNewsDataBase::class.java, "FAV_DATABASE_NAME")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
+        }
 
-    single {
-        Room.databaseBuilder(get(), FavouriteNewsDataBase::class.java, "FAV_DATABASE_NAME")
-            .fallbackToDestructiveMigration().allowMainThreadQueries().build()
-    }
+        single { get<FavouriteNewsDataBase>().getFavouriteDao() }    //  FavouriteNewsDataBase().getFavouriteDao()
 
-    single { get<FavouriteNewsDataBase>().getFavouriteDao() }    //  FavouriteNewsDataBase().getFavouriteDao()
 
-    single {
-        Room.databaseBuilder(get(), HomeNewsDataBase::class.java, "NEWS_DATABASE_NAME")
-            .fallbackToDestructiveMigration().build()
-    }
+        single {
+            Room.databaseBuilder(get(), HomeNewsDataBase::class.java, "NEWS_DATABASE_NAME")
+                .fallbackToDestructiveMigration()
+                .build()
+        }
 
-    single { get<HomeNewsDataBase>().getHomeNewsDao() }
+        single { get<HomeNewsDataBase>().getHomeNewsDao() }
+}
 
-    single {
-        RequestOptions
-            .placeholderOf(R.drawable.placeholder)
-            .error(R.drawable.placeholder)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-    }
+val glideModule = module {
+        single {
+            RequestOptions
+                .placeholderOf(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+        }
 
-    single {
-        Glide.with(androidContext())
-            .setDefaultRequestOptions(get())
+        single {
+            Glide.with(androidContext())
+                .setDefaultRequestOptions(get())
 
-    }
+        }
 
 }

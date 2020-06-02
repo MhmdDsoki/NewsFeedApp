@@ -3,7 +3,6 @@ package com.example.newsfeedapp.ui
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewParent
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -54,10 +53,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         showToast(item.title.toString())
+
         // You need this line to handle the navigation
         val handled = NavigationUI.onNavDestinationSelected(item, navController)
         if (handled) {
-            val parent: ViewParent = nav_view.getParent()
+            val parent: ViewParent = nav_view.parent
             if (parent is DrawerLayout)
                 parent.closeDrawer(nav_view)
         }

@@ -39,9 +39,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
 
         if (viewModel.isFavourite(args.article.url) == 1) {
             favBtn.isFavorite = true
-            setOnFavListner()
+            setOnFavListener()
         } else
-            setOnFavListner()
+            setOnFavListener()
 
 
 
@@ -67,7 +67,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
         }
     }
 
-    private fun setOnFavListner() {
+    private fun setOnFavListener() {
         favBtn.setOnFavoriteChangeListener { buttonView, favorite ->
             if (favorite) {
                 viewModel.saveArticle(args.article)

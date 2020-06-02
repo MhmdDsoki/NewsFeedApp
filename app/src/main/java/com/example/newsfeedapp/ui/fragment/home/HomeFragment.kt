@@ -14,8 +14,6 @@ import com.example.newsfeedapp.data.model.Article
 import com.example.newsfeedapp.ui.MainActivity
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
@@ -23,6 +21,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
 
     private val viewModel by lazy { (activity as MainActivity).viewModel }
     private val newsAdapter by lazy { NewsAdapter(this) }
+
     private lateinit var responseList: MutableList<Article>
 
 
@@ -30,40 +29,42 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         responseList = mutableListOf()
+
         setupRecyclerView()
         observeToNewsLiveData()
     }
 
+
+
+
     private fun observeToNewsLiveData() {
         viewModel.getNews().observe(viewLifecycleOwner, Observer {
+
             when (it) {
+                is Resource.Error -> {
+                    ProgressBar.gone()
+                    swipeRefresh.isRefreshing = false
+                    newsAdapter.differ.submitList(it.data)
+                }
+                is Resource.Loading -> ProgressBar.show()
                 is Resource.Success -> {
                     if (it.data != null) {
                         ProgressBar.gone()
+                        swipeRefresh.isRefreshing = false
                         newsAdapter.differ.submitList(it.data)
-                        swipeReferesh.isRefreshing = false
-                        it.data.let { articles -> responseList.addAll(articles) } // add the call from api to list in memory to search
-
+                        responseList.addAll(it.data)  // add the call from api to list in memory to search
                     }
                 }
-                is Resource.Error -> {
-                    ProgressBar.gone()
-                    swipeReferesh.isRefreshing = false
-                    newsAdapter.differ.submitList(it.data)
-
-                }
-                is Resource.Loading -> ProgressBar.show()
             }
         })
     }
 
-    private fun setupRecyclerView() {
 
-        swipeReferesh.apply {
+    private fun setupRecyclerView() {
+        swipeRefresh.apply {
             setOnRefreshListener {
                 responseList.clear()
                 observeToNewsLiveData()
-
             }
         }
 
@@ -91,8 +92,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-
-        newsAdapter.differ.submitList(viewModel.searcQuery(newText,responseList))
+        newsAdapter.differ.submitList(viewModel.searchQuery(newText, responseList))
         return true
     }
+
 }

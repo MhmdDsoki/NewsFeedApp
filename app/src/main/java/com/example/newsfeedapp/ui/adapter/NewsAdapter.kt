@@ -17,7 +17,7 @@ import org.koin.core.get
 class NewsAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<Article>() {
 
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == newItem.url
@@ -27,7 +27,7 @@ class NewsAdapter(private val interaction: Interaction? = null) :
             return oldItem == newItem
         }
     }
-    val differ = AsyncListDiffer(this, DIFF_CALLBACK)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -44,7 +44,7 @@ class NewsAdapter(private val interaction: Interaction? = null) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NewsViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(differ.currentList[position])
             }
         }
     }

@@ -19,8 +19,7 @@ import com.example.newsfeedapp.ui.MainActivity
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_wish_list.*
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 
 class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Interaction,
@@ -57,8 +56,8 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
                 val article = newsAdapter.differ.currentList[position]
                 viewModel.deleteArticle(article)
 
-                Snackbar.make(view, "Successfully deleted article", Snackbar.LENGTH_LONG).apply {
-                    setAction("Undo") {
+                Snackbar.make(view, getString(R.string.deleteArticle), Snackbar.LENGTH_LONG).apply {
+                    setAction(getString(R.string.undo)) {
                         viewModel.saveArticle(article)
                     }
                     show()
@@ -74,7 +73,7 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
     private fun observeToFavLiveData() {
         viewModel.getSavedArticles().observe(viewLifecycleOwner, Observer { articles ->
             if (articles != null) {
-                newsAdapter.differ.submitList(articles)
+                newsAdapter.differ.submitList(articles.reversed())
                 favList.addAll(articles)
             }
         })
@@ -98,10 +97,10 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
             R.id.action_deleteAll -> {
 
                 if (favList.isNotEmpty())
-                    showDialog(getString(R.string.deleteAll), " Yes , Delete "
+                    showDialog(getString(R.string.deleteAll), getString(R.string.yes)
                         , DialogInterface.OnClickListener { dialog, which ->
                             viewModel.deleteAllArticles()
-                        }, "No", DialogInterface.OnClickListener { dialog, which ->
+                        }, getString(R.string.no), DialogInterface.OnClickListener { dialog, which ->
                             dialog.dismiss()
                         }, true
                     )
@@ -125,8 +124,7 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-
-        newsAdapter.differ.submitList(viewModel.searcQuery(newText,favList))
+        newsAdapter.differ.submitList(viewModel.searchQuery(newText,favList))
         return true
     }
 }

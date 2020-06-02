@@ -1,12 +1,10 @@
 package  com.example.newsfeedapp.data.model
 
-
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-
 
 @Entity
 data class Article(
@@ -19,10 +17,8 @@ data class Article(
     @SerializedName("title")
     val title: String?,
     @NonNull
-    @PrimaryKey()
+    @PrimaryKey
     @SerializedName("url")
     val url: String,
     @SerializedName("urlToImage")
-    val urlToImage: String?
-
-) : Serializable
+    val urlToImage: String? ) : Serializable
