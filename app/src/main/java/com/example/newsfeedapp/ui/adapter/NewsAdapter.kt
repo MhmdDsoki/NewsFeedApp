@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
 import com.example.newsfeedapp.R
-import com.example.newsfeedapp.common.Util
+import com.example.newsfeedapp.common.dateFormat
 import com.example.newsfeedapp.data.model.Article
 import kotlinx.android.synthetic.main.item_news.view.*
 import org.koin.core.KoinComponent
@@ -66,7 +66,7 @@ class NewsAdapter(private val interaction: Interaction? = null) :
                 .into(articleImage)
             titleTxt.text = item.title
             authorNameTxt.text = "By ${item.author} "
-            dateTxt.text = "${Util.dateFormat(item.publishedAt)}"
+            dateTxt.text = "${dateFormat(item.publishedAt)}"
         }
     }
 

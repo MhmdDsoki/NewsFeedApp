@@ -100,6 +100,7 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
                     showDialog(getString(R.string.deleteAll), getString(R.string.yes)
                         , DialogInterface.OnClickListener { dialog, which ->
                             viewModel.deleteAllArticles()
+                            favList.clear()
                         }, getString(R.string.no), DialogInterface.OnClickListener { dialog, which ->
                             dialog.dismiss()
                         }, true

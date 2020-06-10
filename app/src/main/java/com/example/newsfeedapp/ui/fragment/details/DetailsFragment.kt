@@ -10,7 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.newsfeedapp.R
-import com.example.newsfeedapp.common.Util
+import com.example.newsfeedapp.common.dateFormat
+import com.example.newsfeedapp.common.dateToTimeFormat
 import com.example.newsfeedapp.common.showMsg
 import com.example.newsfeedapp.common.showToast
 import com.example.newsfeedapp.ui.MainActivity
@@ -33,8 +34,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
 
         titleTxt.text = args.article.title
         authorNameTxt.text = args.article.author
-        dateTxt.text = Util.dateFormat(args.article.publishedAt)
-        articleTimeAgo.text = Util.dateToTimeFormat(args.article.publishedAt)
+        dateTxt.text = dateFormat(args.article.publishedAt)
+        articleTimeAgo.text =dateToTimeFormat(args.article.publishedAt)
         descriptionTxt.text = args.article.description
 
         if (viewModel.isFavourite(args.article.url) == 1) {
