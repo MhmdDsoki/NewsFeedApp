@@ -10,11 +10,6 @@ import org.junit.Test
 
 class FavRepoTest{
 
-
-
-
-
-
     @Test
     fun insert_isInvoked (){
        runBlocking {
