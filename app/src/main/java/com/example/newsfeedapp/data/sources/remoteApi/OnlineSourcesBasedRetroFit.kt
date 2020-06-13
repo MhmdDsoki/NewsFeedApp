@@ -3,17 +3,50 @@ package com.example.newsfeedapp.data.sources.remoteApi
 
 import android.util.Log
 import com.example.newsfeedapp.data.model.Article
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 
-class OnlineSourcesBasedRetroFit (private val service: ApiService)  :
-    IOnlineDataSource {
+class OnlineSourcesBasedRetroFit(private val service: IApiHelper) : IOnlineDataSource {
 
     private val articlesNews = mutableListOf<Article>()
-companion object {
-     var errorMsg:String=""
-}
 
+    companion object {
+        var errorMsg: String = ""
+    }
+
+/*
+make parallel call with kotlin flow by using zip operator
+
+zip operator, it makes both the network calls in parallel and gives the results of both the network calls in a single callback
+ when both the network calls are completed.
+
+By zipping two flow collections using the Zip operator, both the network calls run in parallel. And we get the result when both finish.
+ In this way, we get the results of both the flow collections at a time.
+
+ */
+
+    override suspend fun getArticles(): List<Article> {
+        service.getarticles("the-next-web")
+            .zip(service.getarticles("associated-press")) { firstSource, secondSource ->
+                val allArticlesFromApi = mutableListOf<Article>()
+                firstSource.articles?.let { allArticlesFromApi.addAll(it) }
+                secondSource.articles?.let { allArticlesFromApi.addAll(it) }
+                return@zip allArticlesFromApi
+            }.flowOn(Dispatchers.IO)
+            .catch { e ->
+                errorMsg = e.message.toString()
+                Log.e("TAG", errorMsg)
+            }
+            .collect {
+                articlesNews.addAll(it)
+            }
+        return articlesNews
+    }
+
+
+
+    /*
+        make parallel call with kotlin coroutines  by using async and await
 
     override suspend fun getArticles(): List<Article> {
 
@@ -37,5 +70,9 @@ companion object {
         }
         return articlesNews
     }
+        */
+
+
+
 
 }

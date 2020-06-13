@@ -1,5 +1,6 @@
 package com.example.newsfeedapp.data.sources.remoteApi
 
+import com.example.newsfeedapp.data.model.Article
 import com.example.newsfeedapp.data.model.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
