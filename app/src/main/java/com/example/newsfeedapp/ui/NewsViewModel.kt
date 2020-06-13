@@ -1,6 +1,7 @@
 package com.example.newsfeedapp.ui
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsfeedapp.common.Resource
@@ -11,16 +12,23 @@ import kotlinx.coroutines.launch
 
 class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
 
+    var articleNews = MutableLiveData<Resource<Article>>()
+
     init {
         getHomeNews()
     }
 
     private fun getHomeNews() {
+        articleNews.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            newsRepository.getNewsSources()
+            val result = newsRepository.getNewsSources()
+            articleNews.postValue(Resource.Success(result))
+            if(result.isNullOrEmpty()){
+                articleNews.postValue(Resource.Error(msg="No data saved "))
+            }
         }
     }
 
-    fun getNews() = newsRepository.sourcesList as LiveData<Resource<Article>>
+    fun getNews() = articleNews as LiveData<Resource<Article>>
 
 }

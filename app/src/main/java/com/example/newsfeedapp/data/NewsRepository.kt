@@ -14,23 +14,23 @@ import com.example.newsfeedapp.data.sources.remoteApi.OnlineSourcesBasedRetroFit
 class NewsRepository(
     private val offlineDataSource: IOfflineDataSource,
     private val onlineDataSource: IOnlineDataSource,
-    private val networkHandler: INetworkAwareHandler
-) {
+    private val networkHandler: INetworkAwareHandler) {
 
 
-    var sourcesList = MutableLiveData<Resource<Article>>()
+    //var sourcesList = MutableLiveData<Resource<Article>>()
 
-    suspend fun getNewsSources() {
+    suspend fun getNewsSources() : List<Article> {
 
-        sourcesList.postValue(Resource.Loading())
-        if (networkHandler.isOnline()) {
+        //sourcesList.postValue(Resource.Loading())
+        return if (networkHandler.isOnline()) {
             offlineDataSource.deleteAllNews()
             val data = onlineDataSource.getArticles()
-            sourcesList.postValue(Resource.Success(data))
+            //sourcesList.postValue(Resource.Success(data))
             offlineDataSource.cacheArticles(data)
-
+            data
         } else {
-            sourcesList.postValue(Resource.Error(data = offlineDataSource.getArticles() , msg = OnlineSourcesBasedRetroFit.errorMsg))
+            //sourcesList.postValue(Resource.Error(data = offlineDataSource.getArticles() , msg = OnlineSourcesBasedRetroFit.errorMsg))
+            offlineDataSource.getArticles()
         }
     }
 
