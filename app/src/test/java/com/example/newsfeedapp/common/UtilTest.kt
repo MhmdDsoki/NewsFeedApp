@@ -1,11 +1,11 @@
 package com.example.newsfeedapp.common
 
+import com.example.newsfeedapp.data.model.Article
 import org.hamcrest.core.Is.`is`
 import org.junit.Test
 import org.junit.Assert.*
 
 class UtilTest {
-
     @Test
     fun dateFormat_theDateIsEmpty_returnEmptyString() {
         val result = dateFormat("")
@@ -13,7 +13,6 @@ class UtilTest {
     }
     @Test
     fun dateFormat_theDateIsNull_returnEmptyString() {
-
         val result = dateFormat(null)
         assertThat(result, `is`(""))
     }
@@ -23,5 +22,25 @@ class UtilTest {
         val result = dateFormat(date)
         assertThat(result, `is`("Mon, 8 Jun 2020"))
     }
-
+    @Test
+    fun searchQuery_addFakeList_returnTheSizeOfNewListWithMatchedTitle (){
+         val fakeList = mutableListOf<Article>().apply {
+        add(Article(title = "one",urlToImage = "",author = "",description = "" , publishedAt = "" , url = ""))
+        add(Article(title = "two",urlToImage = "",author = "",description = "" , publishedAt = "" , url = ""))
+        add(Article(title = "three",urlToImage = "",author = "",description = "" , publishedAt = "" , url = ""))
+        add(Article(title = "two",urlToImage = "",author = "",description = "" , publishedAt = "" , url = ""))
+         }
+        val result=searchQuery("o",fakeList)
+        assertThat(result?.size, `is`(3))
+    }
+    @Test
+    fun searchQuery_addNullList_returnZeroSize (){
+        val result=searchQuery("o",null)
+        assertThat(result?.size, `is`(0))
+    }
+    @Test
+    fun searchQuery_addEmptyList_returnZeroSize (){
+        val result=searchQuery("o", emptyList())
+        assertThat(result?.size, `is`(0))
+    }
 }
