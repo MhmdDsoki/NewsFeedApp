@@ -12,14 +12,16 @@ import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.*
 import com.example.newsfeedapp.data.model.Article
 import com.example.newsfeedapp.ui.MainActivity
+import com.example.newsfeedapp.ui.NewsViewModel
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.viewmodel.ext.android.getViewModel
 
 
 class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
     SearchView.OnQueryTextListener {
 
-    private val viewModel by lazy { (activity as MainActivity).viewModel }
+    lateinit var viewModel: NewsViewModel
     private val newsAdapter by lazy { NewsAdapter(this) }
 
     private lateinit var responseList: MutableList<Article>
@@ -27,7 +29,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setHasOptionsMenu(true)
+        viewModel = getViewModel()
+
         responseList = mutableListOf()
 
         setupRecyclerView()
@@ -92,7 +97,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        newsAdapter.differ.submitList(viewModel.searchQuery(newText, responseList))
+        newsAdapter.differ.submitList(searchQuery(newText, responseList))
         return true
     }
 

@@ -13,41 +13,38 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsfeedapp.R
+import com.example.newsfeedapp.common.searchQuery
 import com.example.newsfeedapp.common.showDialog
 import com.example.newsfeedapp.data.model.Article
-import com.example.newsfeedapp.ui.MainActivity
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_wish_list.*
-
+import org.koin.android.viewmodel.ext.android.getViewModel
 
 
 class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Interaction,
     SearchView.OnQueryTextListener {
 
-    private val viewModel by lazy { (activity as MainActivity).viewModel }
+    lateinit var viewModel: FavouriteViewModel
     private val newsAdapter by lazy { NewsAdapter(this) }
     private lateinit var favList: MutableList<Article>
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = getViewModel()
         favList = mutableListOf()
         setHasOptionsMenu(true)
         setupRecyclerView()
         observeToFavLiveData()
+        swipeToDelete(view)
+    }
 
+    private fun swipeToDelete(view: View) {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
+           override fun onMove(recyclerView: RecyclerView, iewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                 return true
             }
 
@@ -125,7 +122,7 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        newsAdapter.differ.submitList(viewModel.searchQuery(newText,favList))
+        newsAdapter.differ.submitList(searchQuery(newText,favList))
         return true
     }
 }

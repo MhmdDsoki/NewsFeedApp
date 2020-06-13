@@ -15,7 +15,9 @@ import com.example.newsfeedapp.common.dateToTimeFormat
 import com.example.newsfeedapp.common.showMsg
 import com.example.newsfeedapp.common.showToast
 import com.example.newsfeedapp.ui.MainActivity
+import com.example.newsfeedapp.ui.fragment.wish_list.FavouriteViewModel
 import kotlinx.android.synthetic.main.fragment_details.*
+import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
@@ -23,10 +25,13 @@ import org.koin.core.get
 class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
     private val args: DetailsFragmentArgs by navArgs()
     private val glide: RequestManager = get()
-    private val viewModel by lazy { (activity as MainActivity).viewModel }
+    lateinit var viewModel: FavouriteViewModel
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = getViewModel()
+
 
         glide.load(args.article.urlToImage)
             .transition(DrawableTransitionOptions.withCrossFade())
