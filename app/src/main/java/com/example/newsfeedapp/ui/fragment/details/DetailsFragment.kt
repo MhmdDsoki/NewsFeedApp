@@ -32,24 +32,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
         super.onViewCreated(view, savedInstanceState)
         viewModel = getViewModel()
 
-
-        glide.load(args.article.urlToImage)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(articleImage)
-
-        titleTxt.text = args.article.title
-        authorNameTxt.text = args.article.author
-        dateTxt.text = dateFormat(args.article.publishedAt)
-        articleTimeAgo.text =dateToTimeFormat(args.article.publishedAt)
-        descriptionTxt.text = args.article.description
+        bindData()
 
         if (viewModel.isFavourite(args.article.url) == 1) {
             favBtn.isFavorite = true
             setOnFavListener()
         } else
             setOnFavListener()
-
-
 
 
         shareBtn.setOnClickListener {
@@ -65,12 +54,25 @@ class DetailsFragment : Fragment(R.layout.fragment_details), KoinComponent {
                 showToast("Sorry, \nCannot be share")
             }
         }
+
         openWebSite.setOnClickListener {
             val action = args.article.url.let { url ->
                 DetailsFragmentDirections.actionDetailsFragmentToWebViewFragment(url)
             }
             action.let { action -> findNavController().navigate(action) }
         }
+    }
+
+    private fun bindData() {
+        glide.load(args.article.urlToImage)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(articleImage)
+
+        titleTxt.text = args.article.title
+        authorNameTxt.text = args.article.author
+        dateTxt.text = dateFormat(args.article.publishedAt)
+        articleTimeAgo.text = dateToTimeFormat(args.article.publishedAt)
+        descriptionTxt.text = args.article.description
     }
 
     private fun setOnFavListener() {

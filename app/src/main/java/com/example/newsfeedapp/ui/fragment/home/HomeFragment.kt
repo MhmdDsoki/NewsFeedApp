@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.newsfeedapp.R
 import com.example.newsfeedapp.common.*
 import com.example.newsfeedapp.data.model.Article
-import com.example.newsfeedapp.ui.MainActivity
 import com.example.newsfeedapp.ui.NewsViewModel
 import com.example.newsfeedapp.ui.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -44,12 +43,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), NewsAdapter.Interaction,
 
     private fun observeToNewsLiveData() {
         viewModel.getNews().observe(viewLifecycleOwner, Observer {
-
             when (it) {
                 is Resource.Error -> {
                     ProgressBar.gone()
-                    swipeRefresh.isRefreshing = false
-                    newsAdapter.differ.submitList(it.data)
+                    it.msg?.let { msg -> showToast(msg) }
                 }
                 is Resource.Loading -> ProgressBar.show()
                 is Resource.Success -> {

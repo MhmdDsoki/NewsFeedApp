@@ -68,7 +68,7 @@ class WishListFragment : Fragment(R.layout.fragment_wish_list), NewsAdapter.Inte
     }
 
     private fun observeToFavLiveData() {
-        viewModel.getSavedArticles().observe(viewLifecycleOwner, Observer { articles ->
+        viewModel.getSavedArticles()?.observe(viewLifecycleOwner, Observer { articles ->
             if (articles != null) {
                 newsAdapter.differ.submitList(articles.reversed())
                 favList.addAll(articles)
